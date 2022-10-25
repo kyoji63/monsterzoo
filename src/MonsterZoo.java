@@ -1,6 +1,7 @@
 
 
 public class MonsterZoo {
+	static Egg egg = new Egg(); 
 	double distance=0.0;//歩いた距離
 	int balls=10;//モンスターを捕まえられるボールの数
 	int fruits=0;//ぶつけるとモンスターが捕まえやすくなるフルーツ
@@ -8,8 +9,8 @@ public class MonsterZoo {
 	//卵は最大9個まで持てる．卵を取得するとeggにtrueが代入され，
 	//移動するたびに,eggDistanceに1.0kmずつ加算される．
 	//3km移動するとランダムでモンスターが孵る
-	double eggDistance[] = new double[9];
-	boolean egg[] = new boolean[9];
+	// double eggDistance[] = new double[9];
+	// boolean egg[] = new boolean[9];
 
 	//ユーザがGetしたモンスター一覧
 	String userMonster[] = new String[100];
@@ -22,11 +23,7 @@ public class MonsterZoo {
 	//呼び出すと1km distanceが増える
 	void move(){
 		this.distance++;
-		for(int i=0;i<this.egg.length;i++){//卵は移動距離が進むと孵化するため，何km移動したかを更新する
-			if(this.egg[i]==true){
-				this.eggDistance[i]++;
-			}
-		}
+		egg.updateEggDistance();
 
 		int flg1 = (int)(Math.random()*10);//0,1の場合はズーstation，7~9の場合はモンスター
 		if(flg1<=1){
@@ -37,15 +34,8 @@ public class MonsterZoo {
 			System.out.println("ボールを"+b+"個，"+"フルーツを"+f+"個"+"卵を"+e+"個Getした！");
 			this.balls=this.balls+b;
 			this.fruits=this.fruits+f;
-			if(e>=1){//卵を1つ以上Getしたら
-				//egg[]に10個以上卵がない場合は新しい卵データをセットする
-				for(int i=0;i<this.eggDistance.length;i++){
-					if(this.egg[i]==false){
-						this.egg[i]=true;
-						this.eggDistance[i]=0.0;
-						break;
-					}
-				}
+			if(e>=1){
+				egg.setEggs();
 			}
 		}else if(flg1>=7){
 			int m = (int)(this.monsterZukan.length*Math.random());//monsterZukanからランダムにモンスターを出す
@@ -73,22 +63,8 @@ public class MonsterZoo {
 				}
 			}
 		}
-		for(int i=0;i<this.egg.length;i++){
-			if(this.egg[i]==true&&this.eggDistance[i]>=3){
-				System.out.println("卵が孵った！");
-				int m = (int)(this.monsterZukan.length*Math.random());
-				System.out.println(this.monsterZukan[m]+"が産まれた！");
 
-				for(int j=0;j<userMonster.length;j++){
-					if(this.userMonster[j]==null){
-						this.userMonster[j]=this.monsterZukan[m];
-						break;
-					}
-				}
-				this.egg[i]=false;
-				this.eggDistance[i]=0.0;
-			}
-		}
+		egg.checkHatch(this);
 	}
 
 	public double getDistance() {
