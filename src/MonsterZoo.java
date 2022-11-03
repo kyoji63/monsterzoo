@@ -9,9 +9,7 @@ public class MonsterZoo {
 	//卵は最大9個まで持てる．卵を取得するとeggにtrueが代入され，
 	//移動するたびに,eggDistanceに1.0kmずつ加算される．
 	//3km移動するとランダムでモンスターが孵る
-	// double eggDistance[] = new double[9];
-	// boolean egg[] = new boolean[9];
-
+	
 	//ユーザがGetしたモンスター一覧
 	String userMonster[] = new String[100];
 
