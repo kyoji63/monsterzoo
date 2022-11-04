@@ -1,3 +1,4 @@
+
 public class Egg {
     double distance[] = new double[9];
 	boolean checkCount[] = new boolean[9];
@@ -34,5 +35,4 @@ public class Egg {
             }
         }
     }
-
 }
