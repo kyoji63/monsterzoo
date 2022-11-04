@@ -1,5 +1,5 @@
 public class MonsterBattle {
-    void checkZukan(MonsterZoo pz, Egg egg){
+    void checkZukan(MonsterZoo pz){
         int monsterId = (int)(pz.monsterZukan.length * Math.random());//monsterZukanからランダムにモンスターを出す
         System.out.println(pz.monsterZukan[monsterId]+"が現れた！");
         
@@ -7,9 +7,9 @@ public class MonsterBattle {
             int randomNum = (int)(6*Math.random());//0~5までの数字をランダムに返す
             
             //フルーツを投げる
-            if(egg.fruits>0){
+            if(pz.fruits>0){
                 System.out.println("フルーツを投げた！捕まえやすさが倍になる！");
-                egg.fruits--;
+                pz.fruits--;
                 randomNum = randomNum * 2;
             }
             if(this.caputureMonster(pz, monsterId, randomNum)) break;
@@ -25,12 +25,7 @@ public class MonsterBattle {
         //モンスターを捕まえる
         if(pz.monsterRare[monsterId] <= randomNum){//monsterRare[m]の値がr以下の場合
             System.out.println(pz.monsterZukan[monsterId]+"を捕まえた！");
-            for(int j=0;j<pz.userMonster.length;j++){
-                if(pz.userMonster[j]==null){
-                    pz.userMonster[j]=pz.monsterZukan[monsterId];
-                    break;
-                }
-            }
+            pz.setUserMonster(monsterId);
             return true; //ボール投げ終了
         }else{
             System.out.println(pz.monsterZukan[monsterId]+"に逃げられた！");
