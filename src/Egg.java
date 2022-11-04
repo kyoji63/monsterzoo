@@ -1,47 +1,40 @@
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Egg {
-    List<Double> distance = new ArrayList<Double>(9);
-    List<Boolean> checkCount = new ArrayList<Boolean>(9);
+    double distance[] = new double[9];
+	boolean checkCount[] = new boolean[9];
+
     void updateEggDistance(){
-        BooleanList.stream()
-                .filter(i -> i < this.checkCount.length)
-                .filter(i -> this.checkCount.get(i) == true)
-                .forEach(i -> this.distance.get(i)++);
+        for(int i=0;i<this.checkCount.length;i++){//卵は移動距離が進むと孵化するため，何km移動したかを更新する
+			if(this.checkCount[i]==true){
+				this.distance[i]++;
+			}
+		}
     }
 
     void setEggs(){
         for(int i=0; i<this.distance.length; ++i){
-            if(this.checkCount.get(i)==false){
-                this.checkCount.get(i)=true;
-                this.distance.get(i)=0.0;
-                break;
-            }
-        }
-    }
-
-    void setUserMonster(MonsterZoo pz, int m){
-        for(int j=0;j<pz.userMonster.length;j++){
-            if(pz.userMonster[j]==null){
-                pz.userMonster[j]=pz.monsterZukan[m];
+            if(this.checkCount[i]==false){
+                this.checkCount[i]=true;
+                this.distance[i]=0.0;
                 break;
             }
         }
     }
 
     void checkHatch(MonsterZoo pz){
-        BooleanList.stream()
-                .filter(i -> i < this.checkCount.length)
-                .filter(i -> this.checkCount.get(i) == true && this.distance.get(i) >= 3)
-                .forEach(i -> {
-                    System.out.println("卵が孵った！");
-                    int m = (int)(pz.monsterZukan.length*Math.random());
-                    System.out.println(pz.monsterZukan[m]+"が産まれた！");
-                    setUserMonster(pz, m);
-                    this.checkCount.get(i) = false; 
-                    this.distance.get(i) = 0.0;
-                });
+        for(int i=0;i<this.checkCount.length;i++){
+            if(this.checkCount[i]==true&&this.distance[i]>=3){
+                System.out.println("卵が孵った！");
+                int monsterId = (int)(pz.monsterZukan.length*Math.random());
+                System.out.println(pz.monsterZukan[monsterId]+"が産まれた！");
+
+                //Monsterクラスから引用したい
+                pz.setUserMonster(monsterId);
+                this.checkCount[i]=false;
+                this.distance[i]=0.0;
+            }
+        }
     }
+
 }
